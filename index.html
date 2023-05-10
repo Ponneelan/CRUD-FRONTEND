@@ -15,31 +15,31 @@
 <body>
     <div class="col-12 d-flex align-items-center justify-content-center main">
         <div class="col-4 d-flex align-items-center justify-content-center form-div">
-            <form action="">
+            <form  id="cus-form">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-                    <input type="text" id="name" class="form-control" aria-label="Sizing example input"
+                    <input type="text" id="name" name="name" class="form-control" aria-label="Sizing example input"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-                    <input type="text" id="email" class="form-control" aria-label="Sizing example input"
+                    <input type="text" id="email" name="email" class="form-control" aria-label="Sizing example input"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default">summary</span>
-                    <input type="text" id="summary" class="form-control" aria-label="Sizing example input"
+                    <input type="text" id="summary" name="summary" class="form-control" aria-label="Sizing example input"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Message</span>
-                    <textarea id="message" class="form-control" aria-label="With textarea"></textarea>
+                    <textarea id="message" name="message" class="form-control" aria-label="With textarea"></textarea>
                 </div>
 
-                <button type="submit" id="form-btn"  class="btn btn-primary" onclick="addUser()" >Submit</button>
+                <button type="button" id="form-btn" onclick="validation()"  class="btn btn-primary"  >Submit</button>
             </form>
         </div>
-        <div class="col-8 d-flex align-items-center justify-content-center table-div">
+        <div class="col-8 d-flex align-items-start justify-content-center table-div">
             <table id="table" class="table">
                 <thead>
                     <tr>
@@ -48,7 +48,6 @@
                         <th scope="col">Email</th>
                         <th scope="col">Subject</th>
                         <th scope="col">Actions</th>
-
                     </tr>
                 </thead>
                 <tbody id="table-body">

@@ -1,6 +1,25 @@
 window.onload = getAll();
 let btn = document.getElementById('form-btn');
-// btn.addEventListener("click",addUser)
+let form  = document.getElementById('cus-form');
+
+let uniqueUserId;
+
+function validation() {
+
+    const formData = new FormData(form);
+    const data = {};
+    for (const [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    console.log(data);
+    
+    if ((data['name'] == '' || data['name'] == null) || (data['email'] == '' || data['email'] == null) || (data['message'] == '' || data['message'] == null) || (data['summary'] == '' || data['summary'] == null)) {
+        alert('Invalid Form data');
+    } else {
+        btn.textContent == "Submit" ? addUser(data) : updateUser(data);
+    }
+}
+
 function getAll() {
     fetch('http://localhost:3000/getall')
         .then((res) => res.json())
@@ -18,10 +37,10 @@ function getAll() {
                 <td>
                     <div class="d-flex">
                         <div class="col-6">
-                            <a href="#" onclick="updateUser(this); return false;"><i class="bi bi-pencil"></i></a>
+                            <a href="#" onclick="getFormdata(${e['id']}); return false;"><i class="bi bi-pencil"></i></a>
                         </div>
                         <div class="col-6">
-                            <a href="#" onclick="deleteUser(this); return false;"><i class="bi bi-trash3"></i></a>
+                            <a href="#" onclick="deleteUser(${e['id']}); return false;"><i class="bi bi-trash3"></i></a>
                         </div>
                     </div>
                 </td>
@@ -33,15 +52,10 @@ function getAll() {
 }
 
 
-function addUser() {
+function addUser(formData) {
     console.log('add user');
 
-    let payload = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value,
-        summary: document.getElementById('summary').value
-    }
+    let payload = formData;
     console.log(payload);
 
     fetch('http://localhost:3000/insert', {
@@ -61,11 +75,9 @@ function addUser() {
         })
 }
 
-function deleteUser(link) {
-    
-    const row = link.closest('tr');
-    const id = row.cells[0].innerText;
-    let payload = { id: id }
+function deleteUser(userId) {
+
+    let payload = { id: userId }
 
     fetch('http://localhost:3000/delete', {
         mode: 'cors',
@@ -85,41 +97,50 @@ function deleteUser(link) {
 }
 
 
-function updateUser(link) {
+function getFormdata(userId) {
+
     
-    const row = link.closest('tr');
-    let id = row.cells[0].innerText;
-    console.log(id)
+    uniqueUserId = userId;
+    console.log(userId)
 
-    fetch(`http://localhost:3000/getuser/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-        document.getElementById('name').value = data[0]['name'];
-        document.getElementById('email').value = data[0]['email'];
-        document.getElementById('summary').value = data[0]['summary'];
-        document.getElementById('message').value = data[0]['message'];
-        document.getElementById('form-btn').textContent = "Update";
+    fetch(`http://localhost:3000/getuser/${userId}`)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            document.getElementById('name').value = data[0]['name'];
+            document.getElementById('email').value = data[0]['email'];
+            document.getElementById('summary').value = data[0]['summary'];
+            document.getElementById('message').value = data[0]['message'];
+            document.getElementById('form-btn').textContent = "Update";
+        })
+}
 
+function updateUser(formData) {
+    let payload = {
+        name: formData['name'],
+        email: formData['email'],
+        message: formData['message'],
+        summary: formData['summary'],
+        id: uniqueUserId,
+    }
+
+    fetch('http://localhost:3000/update', {
+        mode: 'cors',
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
     })
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) => {
+            console.log(data);
+            getAll();
+            document.getElementById('form-btn').textContent = "Submit";
 
-    // let payload = { id: id }
-
-    // fetch('http://localhost:3000/delete', {
-    //     mode: 'cors',
-    //     method: 'PUT',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(payload),
-    // })
-    //     .then((res) => {
-    //         return res.json()
-    //     })
-    //     .then((data) => {
-    //         console.log(data);
-    //         getAll();
-    //     })
+        })
 }
 
 
