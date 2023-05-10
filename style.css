@@ -14,11 +14,43 @@ main{
     background-color: rgb(185, 185, 185);
 }
 .table-div{
-    background-color: cornsilk;
-    padding: 50px;
-    overflow: auto;
+    /* background-color: rgb(185, 185, 185); */
+    padding: 0px 50px;
+    overflow-y: scroll;
 }
 
-#form-btn{
+input,textarea{
+    /* background-color: cornsilk !important; */
+}
+
+
+.actions{
+    color: blueviolet;
+}
+
+/* #table-head{
+    position:;
+} */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+}
+thead {
+    position: sticky;
+    top: 0;
+  }
+
+#error{
+    color: red;
+    margin-left: 30px;
+    display: none;
+}
+
+.btn-div{
     margin-top: 30px;
+}
+#cus-form{
+    margin-top: 50px;
 }

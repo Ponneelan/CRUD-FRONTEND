@@ -1,8 +1,13 @@
 window.onload = getAll();
 let btn = document.getElementById('form-btn');
-let form  = document.getElementById('cus-form');
-
+let form = document.getElementById('cus-form');
 let uniqueUserId;
+
+
+
+form.addEventListener("keyup", (() => {
+    document.getElementById('error').style.display = "none";
+}))
 
 function validation() {
 
@@ -12,11 +17,12 @@ function validation() {
         data[key] = value;
     }
     console.log(data);
-    
+
     if ((data['name'] == '' || data['name'] == null) || (data['email'] == '' || data['email'] == null) || (data['message'] == '' || data['message'] == null) || (data['summary'] == '' || data['summary'] == null)) {
-        alert('Invalid Form data');
+        document.getElementById('error').style.display = "block";
     } else {
-        btn.textContent == "Submit" ? addUser(data) : updateUser(data);
+        btn.textContent == "Add User" ? addUser(data) : updateUser(data);
+        form.reset();
     }
 }
 
@@ -37,10 +43,10 @@ function getAll() {
                 <td>
                     <div class="d-flex">
                         <div class="col-6">
-                            <a href="#" onclick="getFormdata(${e['id']}); return false;"><i class="bi bi-pencil"></i></a>
+                            <a href="#" onclick="getFormdata(${e['id']}); return false;"><i class="bi bi-pencil actions"></i></a>
                         </div>
                         <div class="col-6">
-                            <a href="#" onclick="deleteUser(${e['id']}); return false;"><i class="bi bi-trash3"></i></a>
+                            <a href="#" onclick="deleteUser(${e['id']}); return false;"><i class="bi bi-trash3 actions"></i></a>
                         </div>
                     </div>
                 </td>
@@ -99,7 +105,7 @@ function deleteUser(userId) {
 
 function getFormdata(userId) {
 
-    
+
     uniqueUserId = userId;
     console.log(userId)
 
