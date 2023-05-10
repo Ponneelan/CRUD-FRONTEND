@@ -16,6 +16,7 @@ main{
 .table-div{
     background-color: cornsilk;
     padding: 50px;
+    overflow: auto;
 }
 
 #form-btn{

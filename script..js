@@ -6,7 +6,7 @@ function getAll() {
         .then((res) => res.json())
         .then((data) => {
             let html = '';
-            console.log(data);
+            // console.log(data);
             data.forEach(e => {
                 html +=
                     `
@@ -17,11 +17,11 @@ function getAll() {
                 <td>${e['summary']}</td>
                 <td>
                     <div class="d-flex">
-                        <div class="col-4">
-                            <a href="">Edit</a>
+                        <div class="col-6">
+                            <a href="#" onclick="updateUser(this); return false;"><i class="bi bi-pencil"></i></a>
                         </div>
-                        <div class="col-4">
-                            <a href="">Delete</a>
+                        <div class="col-6">
+                            <a href="#" onclick="deleteUser(this); return false;"><i class="bi bi-trash3"></i></a>
                         </div>
                     </div>
                 </td>
@@ -49,14 +49,77 @@ function addUser() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-          },
+        },
         body: JSON.stringify(payload),
     })
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) => {
+            // console.log(data);
+            getAll();
+        })
+}
+
+function deleteUser(link) {
+    
+    const row = link.closest('tr');
+    const id = row.cells[0].innerText;
+    let payload = { id: id }
+
+    fetch('http://localhost:3000/delete', {
+        mode: 'cors',
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+    })
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) => {
+            console.log(data);
+            getAll();
+        })
+}
+
+
+function updateUser(link) {
+    
+    const row = link.closest('tr');
+    let id = row.cells[0].innerText;
+    console.log(id)
+
+    fetch(`http://localhost:3000/getuser/${id}`)
     .then((res) => res.json())
     .then((data) => {
         console.log(data);
-        getAll();
+        document.getElementById('name').value = data[0]['name'];
+        document.getElementById('email').value = data[0]['email'];
+        document.getElementById('summary').value = data[0]['summary'];
+        document.getElementById('message').value = data[0]['message'];
+        document.getElementById('form-btn').textContent = "Update";
+
     })
+
+    // let payload = { id: id }
+
+    // fetch('http://localhost:3000/delete', {
+    //     mode: 'cors',
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(payload),
+    // })
+    //     .then((res) => {
+    //         return res.json()
+    //     })
+    //     .then((data) => {
+    //         console.log(data);
+    //         getAll();
+    //     })
 }
 
 
